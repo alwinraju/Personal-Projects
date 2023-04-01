@@ -9,11 +9,10 @@ import random
 import streamlit as st
 import sys
 
-sys.path.append(
-    "/Users/anonymous/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Python_Projects/Bus Tickets/Bus Price App/"
-)
-import creds
-
+# sys.path.append(
+#     "/Users/anonymous/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Python_Projects/Bus Tickets/Bus Price App/"
+# )
+# import creds
 
 # INPUT_FROM = input("Depart from: ")
 # INPUT_TO = input("Destination: ")
@@ -190,7 +189,7 @@ if st.button("Compare Prices"):
             "Content-Type": "application/json",
             "Origin": "https://book.nationalexpress.com",
             "Content-Type": "application/json",
-            "Cookie": creds.NX_COOKIE,
+            "Cookie": st.secrets["NX_COOKIE"],
             "Content-Length": "795",
             "Accept-Language": "en-GB,en;q=0.9",
             "Host": "book.nationalexpress.com",
@@ -307,7 +306,7 @@ if st.button("Compare Prices"):
         # Return_date = '2022-07-30'
 
         headers = {
-            "cookie": creds.MB_COOKIE,
+            "cookie": st.secrets["MB_COOKIE"],
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
         }
         url = (
@@ -433,7 +432,7 @@ if st.button("Compare Prices"):
         }
 
         headers = {
-            "X-RapidAPI-Key": creds.FLIXBUS_API_KEY,
+            "X-RapidAPI-Key": st.secrets["FLIXBUS_API_KEY"],
             "X-RapidAPI-Host": "flixbus.p.rapidapi.com",
         }
 
