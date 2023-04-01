@@ -28,7 +28,7 @@ def app():
 
     st.write(
         """
-        The lack of a quick and reliable method to compare bus prices led me to develop this [webapp] (https://alwinraju-personal-projects-1--home-bv3oug.streamlit.app/Bus_Price_Comparison_Tool) to compare 
+        The lack of a quick and reliable method to compare bus prices led me to develop this webapp to compare 
         National Express, Megabus and Flixbus prices all at once.
     """
     )
