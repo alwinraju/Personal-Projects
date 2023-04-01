@@ -8,6 +8,9 @@ st.set_page_config(
 
 def app():
     st.title("👋 Welcome to my Bus Price Comparison Tool \n \n")
+    st.write("")
+    st.write("")
+
     st.header("🤔 Problem")
     st.write(
         """
@@ -18,6 +21,9 @@ def app():
         from multiple providers was a tedious and time-consuming task.
     """
     )
+    st.write("")
+    st.write("")
+
     st.header("💡 Solution")
 
     st.write(
