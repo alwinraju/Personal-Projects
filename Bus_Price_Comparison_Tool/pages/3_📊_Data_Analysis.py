@@ -1,8 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-
-# import matplotlib.pyplot as plt
 import plotly.express as px
 
 st.set_page_config(
@@ -249,7 +246,7 @@ if __name__ == "__main__":
 import pandas as pd
 
 pd.set_option('display.max_colwidth', 100)
-raw_data = pd.read_csv('/Users/anonymous/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Python_Projects/Bus_Price_Comparison_App/National Express by Month.csv',
+raw_data = pd.read_csv('./National Express by Month.csv',
                         names=['Departure Stop', 'Destination Stop', 'Departure Date', 'Arrival Date', 'Departure Time', 'Arrival Time', 'Duration', 'Price'])
 
 df = raw_data.copy()
@@ -309,7 +306,7 @@ nx_coach.tail()
             """
         ```python
     nx_coach = pd.read_csv(
-        "/Users/anonymous/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Python_Projects/Bus_Price_Comparison_App/Bus_Price_App/pages/National Express Data Cleaned.csv"
+        "./National Express Data Cleaned.csv"
     )
     nx_coach["Departure Date Time"] = pd.to_datetime(nx_coach["Departure Date Time"])
     nx_coach.groupby(pd.Grouper(key='Departure Date Time', freq='M'))['Price'].mean()
@@ -329,9 +326,7 @@ nx_coach.tail()
     fig.show()
         """
         )
-    nx_coach = pd.read_csv(
-        "/Users/anonymous/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Python_Projects/Bus_Price_Comparison_App/Bus_Price_App/pages/National Express Data Cleaned.csv"
-    )
+    nx_coach = pd.read_csv("./National Express Data Cleaned.csv")
     nx_coach["Departure Date Time"] = pd.to_datetime(nx_coach["Departure Date Time"])
     nx_coach.groupby(pd.Grouper(key="Departure Date Time", freq="M"))["Price"].mean()
 
