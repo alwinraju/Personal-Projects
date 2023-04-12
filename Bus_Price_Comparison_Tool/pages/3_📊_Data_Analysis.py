@@ -376,7 +376,7 @@ nx_coach.tail()
             """
         ```python
     nx_coach = pd.read_csv(
-        "/Users/anonymous/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Python_Projects/Bus_Price_Comparison_App/Bus_Price_App/pages/National Express Data Cleaned.csv"
+        "./National Express Data Cleaned.csv"
     )
     nx_coach["Departure Date Time"] = pd.to_datetime(nx_coach["Departure Date Time"])
     nx_coach.groupby(pd.Grouper(key="Departure Date Time", freq="W"))["Price"].mean()
@@ -431,7 +431,7 @@ nx_coach.tail()
             """
         ```python
     nx_coach = pd.read_csv(
-        "/Users/anonymous/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Python_Projects/Bus_Price_Comparison_App/Bus_Price_App/pages/National Express Data Cleaned.csv"
+        "./National Express Data Cleaned.csv"
     )
     nx_coach["Departure Date Time"] = pd.to_datetime(nx_coach["Departure Date Time"])
     nx_coach_day = nx_coach.groupby(pd.Grouper(key="Departure Date Time", freq="D"))[
@@ -475,7 +475,7 @@ nx_coach.tail()
             """
         ```python
         nx_coach = pd.read_csv(
-            "/Users/anonymous/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Python_Projects/Bus_Price_Comparison_App/Bus_Price_App/pages/National Express Data Cleaned.csv"
+            "./National Express Data Cleaned.csv"
         )
         nx_coach["Departure Date Time"] = pd.to_datetime(nx_coach["Departure Date Time"])
         # Calculate the mean and standard deviation of prices by weekday
@@ -543,7 +543,7 @@ nx_coach.tail()
             """
         ```python
         nx_coach = pd.read_csv(
-            "/Users/anonymous/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Python_Projects/Bus_Price_Comparison_App/Bus_Price_App/pages/National Express Data Cleaned.csv"
+            "./National Express Data Cleaned.csv"
         )
         nx_coach["Departure Date Time"] = pd.to_datetime(nx_coach["Departure Date Time"])
         nx_coach.groupby(nx_coach['Departure Date Time'].dt.hour)['Price'].mean()
