@@ -326,7 +326,9 @@ nx_coach.tail()
     fig.show()
         """
         )
-    nx_coach = pd.read_csv("./National Express Data Cleaned.csv")
+    nx_coach = pd.read_csv(
+        r"https://github.com/alwinraju/Personal-Projects/raw/main/Bus_Price_Comparison_Tool/pages/National%20Express%20Data%20Cleaned.csv"
+    )
     nx_coach["Departure Date Time"] = pd.to_datetime(nx_coach["Departure Date Time"])
     nx_coach.groupby(pd.Grouper(key="Departure Date Time", freq="M"))["Price"].mean()
 
