@@ -26,7 +26,7 @@ def app():
 
     st.write(
         """
-        I aim to collect and add data for Megabus and Flixbus tickets to extract even more insights as to which bus provider is the best value for money.
+        Will soon collect and add data for Megabus and Flixbus tickets to extract even more insights as to which bus provider is the best value for money.
     """
     )
 
