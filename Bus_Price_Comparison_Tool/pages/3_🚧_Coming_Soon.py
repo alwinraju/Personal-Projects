@@ -22,11 +22,11 @@ def app():
     st.write("")
     st.write("")
 
-    st.header("📊 Data Analysis")
+    st.header("📊 Even more data analysis")
 
     st.write(
         """
-        By exploring the data, I aim to identify the optimal times to book and how far in advance to book tickets.
+        I aim to collect and add data for Megabus and Flixbus tickets to extract even more insights as to which bus provider is the best value for money.
     """
     )
 
