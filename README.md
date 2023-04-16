@@ -4,7 +4,7 @@ This repository contains a collection of all the personal projects that I have w
 
 ## Projects
 
-### :bus: 1.  Bus Price Comparison Tool
+### :bus: 1.  [Bus Price Comparison Tool](https://alwinraju-personal-proj-bus-price-comparison-tool1--home-hxhzy4.streamlit.app/)
 The project aims to provide users with a user-friendly interface to easily compare prices for UK intercity bus routes. The tool also includes various data analytics and visualization features to help users gain insights into pricing trends and patterns in the bus transportation industry.
 
 ## Getting Started
