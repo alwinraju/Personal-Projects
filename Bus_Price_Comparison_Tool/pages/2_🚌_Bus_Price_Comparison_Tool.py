@@ -8,18 +8,7 @@ from datetime import datetime, timedelta
 import random
 import streamlit as st
 import sys
-
-# sys.path.append(
-#     "/Users/anonymous/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Python_Projects/Bus Tickets/Bus Price App/"
-# )
-# import creds
-#
-# INPUT_FROM = input("Depart from: ")
-# INPUT_TO = input("Destination: ")
-# INPUT_DATE = input("Departure Date (dd/mm/yyyy): ")
-# INPUT_TIME = input("Departure Time (hh:mm): ")
-# Formatted_date = datetime.strptime(
-# INPUT_DATE, "%d/%m/%Y").strftime("%Y-%m-%d")
+import locations
 
 st.set_page_config(
     page_title="Bus Price Comparison Tool",
@@ -38,7 +27,6 @@ with col2:
 
 # Create input field for departure date
 with col1:
-
     streamlit_date = st.date_input(
         "Departure Date", datetime.now(), min_value=datetime.now()
     )
@@ -47,7 +35,6 @@ with col1:
 INPUT_DATE = datetime.strptime(str(streamlit_date), "%Y-%m-%d").strftime("%d/%m/%Y")
 
 # Create an input field for depart after time, make it default to now and force it to be in the format hh:mm
-# col1, col2 = st.columns(2)
 with col2:
     INPUT_TIME = st.time_input("Depart After", datetime.now()).strftime("%H:%M")
 
@@ -72,10 +59,6 @@ with col2:
 # Create button to initiate price comparison
 if st.button("Compare Prices"):
     with st.spinner("Searching Tickets..."):
-        # INPUT_FROM = "Bristol"
-        # INPUT_TO = "London"
-        # INPUT_DATE = "01/04/2023"
-        # INPUT_TIME = "17:00"  # This only filters time for national express buses
         Formatted_date = datetime.strptime(INPUT_DATE, "%d/%m/%Y").strftime("%Y-%m-%d")
 
         provider_list = []
@@ -92,12 +75,7 @@ if st.button("Compare Prices"):
         NATIONAL_EXPRESS_URL = (
             "https://book.nationalexpress.com/nxrest/journey/search/OUT"
         )
-        NationalExpress_Dictionary = {
-            "Bristol": 41000,
-            "UWE": 41000,
-            "London": 57000,
-            "Cardiff": 15035,
-        }
+
         NationalExpressData = {
             "coachCard": False,
             "campaignId": "DEFAULT",
@@ -125,8 +103,8 @@ if st.button("Compare Prices"):
             },
             "returnDateTime": {"date": "31/07/2022", "time": "00:00"},
             "fromToStation": {
-                "fromStationId": (NationalExpress_Dictionary.get(INPUT_FROM)),
-                "toStationId": (NationalExpress_Dictionary.get(INPUT_TO)),
+                "fromStationId": (locations.NX_From.get(INPUT_FROM)),
+                "toStationId": (locations.NX_To.get(INPUT_TO)),
             },
             "onDemand": False,
             "languageCode": "en",
@@ -296,14 +274,11 @@ if st.button("Compare Prices"):
 
         # MEGABUS
 
-        Megabus_Dictionary = {"Bristol": 13, "UWE": 14, "London": 56, "Cardiff": 20}
-
-        Start = str(Megabus_Dictionary.get(INPUT_FROM))
-        Finish = str(Megabus_Dictionary.get(INPUT_TO))
+        Start = locations.Megabus.get(INPUT_FROM)
+        Finish = locations.Megabus.get(INPUT_TO)
         Departure_date = str(Formatted_date)
         INPUT_NUS_CARD = "1"
         Total_Passengers = "1"
-        # Return_date = '2022-07-30'
 
         headers = {
             "cookie": st.secrets["MB_COOKIE"],
@@ -326,14 +301,13 @@ if st.button("Compare Prices"):
 
         page = requests.get(url, headers=headers, timeout=60)
         soup = str(BeautifulSoup(page.content, "html.parser"))
-        your_json = (
+        clean_json = (
             soup.split("window.SEARCH_RESULTS = ")[1]
             .lstrip()
             .replace("</script>\n</body>\n</html>", "")
             .rstrip()[:-1]
         )
-        # your_json = re.sub('"legs".*?],', '', your_json, flags=re.DOTALL)
-        parsed = json.loads(your_json)
+        parsed = json.loads(clean_json)
         # print(json.dumps(parsed, indent=4, sort_keys=False))
         # print(parsed['journeys'])
         number_of_tickets = len(parsed["journeys"])
@@ -413,18 +387,11 @@ if st.button("Compare Prices"):
 
         # FLIXBUS
 
-        Flixbus_Location_Dictionary = {
-            "Cardiff": 46691,
-            "London": 3848,
-            "Bristol": 43131,
-            "UWE": 43131,
-        }
-
         FLIXBUS_URL = "https://flixbus.p.rapidapi.com/v1/search-trips"
 
         querystring = {
-            "from_id": str(Flixbus_Location_Dictionary.get(INPUT_FROM)),
-            "to_id": str(Flixbus_Location_Dictionary.get(INPUT_TO)),
+            "from_id": str(locations.Flixbus.get(INPUT_FROM)),
+            "to_id": str(locations.Flixbus.get(INPUT_TO)),
             "currency": "GBP",
             "departure_date": str(Formatted_date),
             "number_adult": str(INPUT_TOTAL_PASSENGERS),
@@ -443,14 +410,9 @@ if st.button("Compare Prices"):
         soup = str(BeautifulSoup(response.text, "html.parser"))
         parsed = json.loads(soup)
 
-        # with open("/Users/anonymous/Library/CloudStorage/OneDrive-UniversityCollegeLondon/Python_Projects/Bus Tickets/flixbusdata.html", 'r') as f:
-        #     soup = str(BeautifulSoup(f, 'html.parser'))
-        #     parsed = json.loads(soup)
-
         number_of_routes = len(parsed)
         a = 0
         while a < (number_of_routes):
-
             number_of_items = len(parsed[a]["items"])
             b = 0
 
@@ -519,7 +481,6 @@ if st.button("Compare Prices"):
             a += 1
 
         ###############################################################################
-        # departure_list = ["06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
         Journeys = {
             "Bus": provider_list,
             "Price": price_list,
