@@ -5,30 +5,31 @@ st.set_page_config(
     page_icon="\U0001F6A7",
 )
 
-import streamlit as st
-
 
 def app():
-    st.title("🚧 Coming Soon...\n \n")
+    with st.container():
+        st.markdown("# ✅ Completed")
+        st.markdown(
+            """
+            ### 🎓 Student Tickets
+            - Added functionality to compare student tickets on the comparison tool.
+            ### 🏙️ More Cities
+            - Now includes a total of 27 locations that are serviced by the top 3 bus providers."""
+        )
+
     st.write("")
     st.write("")
 
-    st.header("\n \n 🏙️ More Cities")
-    st.write(
+    with st.container():
+        st.title("🚧 Coming Soon...")
+        st.markdown(
+            """
+            ### 📊 More Data Analysis
+            - Aiming to add analyses of Megabus and Flixbus tickets to extract even more insights as to which bus provider is the best value for money.
+            ### 👶 Childrens Tickets
+            - Aiming to add functionality to include childrens tickets to the comparison tool.
         """
-        Aiming to include a minimum of 20 additional locations that are serviced by the top 3 bus providers.
-    """
-    )
-    st.write("")
-    st.write("")
-
-    st.header("📊 Even more data analysis")
-
-    st.write(
-        """
-        Will soon collect and add data for Megabus and Flixbus tickets to extract even more insights as to which bus provider is the best value for money.
-    """
-    )
+        )
 
 
 if __name__ == "__main__":

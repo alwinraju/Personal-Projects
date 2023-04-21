@@ -16,14 +16,42 @@ st.set_page_config(
 )
 
 st.title("🚌 Compare UK Intercity Bus Prices")
-cities = ["Bristol", "London", "Cardiff"]
+cities = [
+    "Birmingham",
+    "Bradford",
+    "Bridgwater",
+    "Bristol",
+    "Cambridge",
+    "Cardiff",
+    "Chester",
+    "Exeter",
+    "Lancaster",
+    "Leeds",
+    "Leicester",
+    "Liverpool",
+    "London",
+    "Luton",
+    "Manchester",
+    "Middlesbrough",
+    "Northampton",
+    "Nottingham",
+    "Preston",
+    "Reading",
+    "Sheffield",
+    "Stoke-on-Trent",
+    "Sunderland",
+    "Swansea",
+    "Taunton",
+    "Warrington",
+    "Yeovil",
+]
 # Create dropdown fields for departure and destination
 col1, col2 = st.columns(2)
 with col1:
-    INPUT_FROM = st.selectbox("From", cities)
+    INPUT_FROM = st.selectbox("From", cities, index=3)
 
 with col2:
-    INPUT_TO = st.selectbox("To", cities, index=1)
+    INPUT_TO = st.selectbox("To", cities, index=12)
 
 # Create input field for departure date
 with col1:

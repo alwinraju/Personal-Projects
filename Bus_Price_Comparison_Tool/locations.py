@@ -598,3 +598,38 @@ Flixbus = {
     "Dover": "10458",
     "Bridgwater": "50951",
 }
+
+
+my_list = [
+    "Swansea",
+    "Chester",
+    "Preston",
+    "Bristol",
+    "Leeds",
+    "Leicester",
+    "Cambridge",
+    "Birmingham",
+    "Lancaster",
+    "Luton",
+    "Sunderland",
+    "Manchester",
+    "Taunton",
+    "Sheffield",
+    "Yeovil",
+    "Nottingham",
+    "Middlesbrough",
+    "Warrington",
+    "Exeter",
+    "London",
+    "Northampton",
+    "Bradford",
+    "Cardiff",
+    "Liverpool",
+    "Bridgwater",
+    "Reading",
+    "Stoke-on-Trent",
+]
+
+sorted_list = sorted(my_list)
+
+print(sorted_list)
