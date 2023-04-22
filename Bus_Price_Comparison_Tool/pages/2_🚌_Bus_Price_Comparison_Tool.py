@@ -5,9 +5,8 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
-import random
+from fake_useragent import UserAgent, FakeUserAgentError
 import streamlit as st
-import sys
 import locations
 
 st.set_page_config(
@@ -47,22 +46,46 @@ cities = [
 ]
 # Create dropdown fields for departure and destination
 col1, col2 = st.columns(2)
+
+# Check if session state exists and initialize if not
+if "dropdown1_index" not in st.session_state:
+    st.session_state.dropdown1_index = 3
+if "dropdown2_index" not in st.session_state:
+    st.session_state.dropdown2_index = 12
+
 with col1:
-    INPUT_FROM = st.selectbox("From", cities, index=3)
+    INPUT_FROM = st.selectbox("From", cities, index=st.session_state.dropdown1_index)
 
 with col2:
-    INPUT_TO = st.selectbox("To", cities, index=12)
+    INPUT_TO = st.selectbox("To", cities, index=st.session_state.dropdown2_index)
+
+    # Update session state with the selected indices
+    st.session_state.dropdown1_index = cities.index(INPUT_FROM)
+    st.session_state.dropdown2_index = cities.index(INPUT_TO)
+
+button_col1, button_col2 = st.columns(2)
+with button_col1:
+    # Create a button for swapping the selections
+    if st.button("Swap Locations"):
+        # Swap the session state selections
+        st.session_state.dropdown1_index, st.session_state.dropdown2_index = (
+            st.session_state.dropdown2_index,
+            st.session_state.dropdown1_index,
+        )
+
+        # Update the select boxes with the new selections
+        st.experimental_rerun()
 
 # Create input field for departure date
 with col1:
     streamlit_date = st.date_input(
         "Departure Date", datetime.now(), min_value=datetime.now()
     )
-
 # Convert date to string in format dd/mm/yyyy
 INPUT_DATE = datetime.strptime(str(streamlit_date), "%Y-%m-%d").strftime("%d/%m/%Y")
 
 # Create an input field for depart after time, make it default to now and force it to be in the format hh:mm
+# col1, col2 = st.columns(2)
 with col2:
     INPUT_TIME = st.time_input("Depart After", datetime.now()).strftime("%H:%M")
 
@@ -84,8 +107,19 @@ with col2:
     )
 
 
+def get_random_user_agent():
+    try:
+        user_agent = UserAgent.random
+    except FakeUserAgentError:
+        user_agent = (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+        )
+    return user_agent
+
+
 # Create button to initiate price comparison
-if st.button("Compare Prices"):
+if st.button("Compare Prices", type="primary"):
     with st.spinner("Searching Tickets..."):
         Formatted_date = datetime.strptime(INPUT_DATE, "%d/%m/%Y").strftime("%Y-%m-%d")
 
@@ -138,58 +172,7 @@ if st.button("Compare Prices"):
             "languageCode": "en",
             "channelsKey": "DESKTOP",
         }
-        USER_AGENT_LIST = [
-            "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 13_0_0; en-US; Valve Steam GameOverlay/1676336721; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 13_2_1; en-US; Valve Steam Tenfoot/1676336721; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 13_2_0; en-US; Valve Steam GameOverlay/1675222618; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 13_2_0; en-US; Valve Steam GameOverlay/1675222618; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/420.0.4183.121 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 13_1_0; en-US; Valve Steam Tenfoot/1674790765; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 13_0_1; en-US; Valve Steam GameOverlay/1671236931; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 13_1_0; en-US; Valve Steam GameOverlay/1671236931; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 13_0_0; en-US; Valve Steam GameOverlay/1666144119; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:43.0) Gecko/20100101 Firefox/43.0 SeaMonkey/8650",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; rv:31.0) Gecko/20100101 Firefox/30.0 TenFourFox/7477",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; FPR12; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; FPR14; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; rv:17.0) Gecko/17.0 Firefox/17.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; rv:38.0) Gecko/20100101 Firefox/38.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR21; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR30; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR27; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; rv:17.0) Gecko/20130328 Firefox/17.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; rv:31.0) Gecko/20100101 Firefox/31.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; rv:17.0) Gecko/20130105 Firefox/17.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; FPR2; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; rv:17.0) Gecko/20130328 Firefox/17.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; rv:10.0.9) Gecko/20121011 Firefox/10.0.9 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR16; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450 AlexaToolbar/alxf-2.21",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; FPR8; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; rv:10.0.6) Gecko/20120714 Firefox/10.0.6 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; FPR6; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; FPR10; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR7; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR22; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; rv:17.0) Gecko/20130805 Firefox/17.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR12; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR8; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; FPR23; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; rv:17.0) Gecko/20131114 Firefox/17.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.6; FPR31; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; FPR18; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR8; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450 AlexaToolbar/alxf-2.21",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR23; rv:45.0) Gecko/20100101 SVT/1.0.1 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; rv:38.0) Gecko/20100101 Firefox/38.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR32; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR17; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; FPR4; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR3; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; FPR7; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; FPR21; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.5; FPR32; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; rv:17.0) Gecko/20130308 Firefox/17.0 TenFourFox/7450",
-            "Mozilla/5.0 (Macintosh; PPC Mac OS X 10.4; FPR6; rv:45.0) Gecko/20100101 Firefox/45.0 TenFourFox/7450",
-        ]
+
         headers = {
             "Accept": "application/json, text/plain, */*",
             "Content-Type": "application/json",
@@ -200,7 +183,7 @@ if st.button("Compare Prices"):
             "Accept-Language": "en-GB,en;q=0.9",
             "Host": "book.nationalexpress.com",
             # Select a random user agent from user agent list
-            "User-Agent": random.choice(USER_AGENT_LIST),
+            "User-Agent": str(get_random_user_agent()),
             "Referer": "https://book.nationalexpress.com/coach/",
             "Accept-Encoding": "gzip, deflate, br",
             "Connection": "keep-alive",
