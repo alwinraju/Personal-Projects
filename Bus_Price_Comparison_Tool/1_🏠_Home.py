@@ -33,6 +33,22 @@ def app():
     """
     )
 
+    st.write("")
+    st.write("")
+
+    st.header("🌟 Skills Showcased:")
+
+    st.write(
+        """
+            - 🕸️ Web Scraping using official and unofficial APIs
+            - 🧹 Data Cleaning with Pandas and BeautifulSoup
+            - 📊 Data Analytics with Pandas
+            - 📈 Data Visualization with Plotly
+            - 🚀 Dashboarding and Deployment with Streamlit
+            - 👥 Version Control with Git and GitHub
+    """
+    )
+
 
 if __name__ == "__main__":
     app()

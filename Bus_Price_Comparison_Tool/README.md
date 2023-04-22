@@ -5,3 +5,11 @@ Trains in the UK are notorious for being expensive, so I turned to buses, which 
 
 ## :bulb: Solution
 The lack of a quick and reliable method to compare bus prices led me to develop this webapp to compare National Express, Megabus and Flixbus prices all at once. Explore the tool's functionality and dive into the data to gain deeper insights [here](https://alwinraju-personal-proj-bus-price-comparison-tool1--home-hxhzy4.streamlit.app). 
+
+## 🌟 Skills Showcased:
+- 🕸️ Web Scraping using official and unofficial APIs
+- 🧹 Data Cleaning with Pandas and BeautifulSoup
+- 📊 Data Analytics with Pandas
+- 📈 Data Visualization with Plotly
+- 🚀 Dashboarding and Deployment with Streamlit
+- 👥 Version Control with Git and GitHub

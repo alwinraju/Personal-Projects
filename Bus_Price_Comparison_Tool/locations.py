@@ -629,7 +629,3 @@ my_list = [
     "Reading",
     "Stoke-on-Trent",
 ]
-
-sorted_list = sorted(my_list)
-
-print(sorted_list)

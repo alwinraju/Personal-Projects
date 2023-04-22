@@ -7,6 +7,14 @@ This repository contains a collection of all the personal projects that I have w
 ### :bus: 1.  [Bus Price Comparison Tool](https://alwinraju-personal-proj-bus-price-comparison-tool1--home-hxhzy4.streamlit.app/)
 The project aims to provide users with a user-friendly interface to easily compare prices for UK intercity bus routes. The tool also includes various data analytics and visualization features to help users gain insights into pricing trends and patterns in the bus transportation industry.
 
+🌟 Skills Showcased:
+- 🕸️ Web Scraping using official and unofficial APIs
+- 🧹 Data Cleaning with Pandas and BeautifulSoup
+- 📊 Data Analytics with Pandas
+- 📈 Data Visualization with Plotly
+- 🚀 Dashboarding and Deployment with Streamlit
+- 👥 Version Control with Git and GitHub
+
 ## Getting Started
 
 To get started with this repository, simply clone the repository to your local machine and navigate to the folder for the project you are interested in. Each project folder contains the project's code, data files, and a README.md file with an overview of the project.
