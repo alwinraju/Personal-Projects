@@ -3,6 +3,7 @@
 import json
 import requests
 import pandas as pd
+import pytz
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from fake_useragent import UserAgent, FakeUserAgentError
@@ -86,8 +87,9 @@ INPUT_DATE = datetime.strptime(str(streamlit_date), "%Y-%m-%d").strftime("%d/%m/
 
 # Create an input field for depart after time, make it default to now and force it to be in the format hh:mm
 # col1, col2 = st.columns(2)
+tz = pytz.timezone("Europe/London")
 with col2:
-    INPUT_TIME = st.time_input("Depart After", datetime.now()).strftime("%H:%M")
+    INPUT_TIME = st.time_input("Depart After", datetime.now(tz)).strftime("%H:%M")
 
 # Create input fields for number of passengers
 with col1:
