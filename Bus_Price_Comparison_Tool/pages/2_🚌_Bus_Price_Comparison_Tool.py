@@ -486,7 +486,7 @@ if st.button("Compare Prices", type="primary"):
                 duration = f"{parsed[a]['items'][b]['duration']['hour']}h {parsed[a]['items'][b]['duration']['minutes']}m"
                 duration_list.append(duration)
 
-                price = f"£{parsed[a]['items'][b]['price_total_sum']}"
+                price = f"£{parsed[a]['items'][b]['price_total_sum'] + 1}"
                 price_list.append(price)
 
                 b += 1
